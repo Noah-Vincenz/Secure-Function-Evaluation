@@ -1,32 +1,47 @@
 
 # yao garbled circuit evaluation v1. simple version based on smart
 # naranker dulay, dept of computing, imperial college, october 2018
-import json
-from pprint import pprint
+# name: Noah-Vincenz Noeh
+# login: nn4718
 
+from cryptography.fernet import Fernet
+import pickle
 
 ENCRYPTED = True
 
-if ENCRYPTED: #_____________________________________________________________
+if ENCRYPTED:
 
   # secure AES based encryption
 
-  # << removed >>
+    def encrypt(keyA, keyB, keyC, xor):
+        f1 = Fernet(keyA)
 
-else: # ____________________________________________________________________
+        if keyB != "NOT":
 
-  # totally insecure keyless implementation
+            f2 = Fernet(keyB)
+            secret = pickle.dumps((keyC, xor))
+            first_ciphertext = f1.encrypt(secret)
+            return f2.encrypt(first_ciphertext)
 
-    with open('json/f.bool.json') as f:
-        data = json.load(f)
+        else:
 
-    pprint(data)
+            secret = pickle.dumps((keyC, xor))
+            return f1.encrypt(secret)
 
-    # 'AND GATE'
-    # log_and()
-    # for i in range(0, 1):
-    #   for j in range(0, 1):
-    #       print('Alice[1]= ' + i + ' Bob[2] = ' + j + Output[3] = ' + logical_and(i,j))
-  # << removed >>
+    def decrypt(keyA, keyB, ciphertext):
 
-# __________________________________________________________________________
+        if keyB != "NOT":
+
+           f1 = Fernet(keyB)
+           f2 = Fernet(keyA)
+           new_ciphertext = f1.decrypt(ciphertext)
+           x = f2.decrypt(new_ciphertext)
+           (keyC, xor) = pickle.loads(x)
+
+        else:
+
+           f = Fernet(keyA)
+           (keyC, xor) = pickle.loads(f.decrypt(ciphertext))
+
+        xor = int(xor)
+        return (keyC, xor)

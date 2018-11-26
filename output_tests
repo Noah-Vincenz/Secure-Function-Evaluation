@@ -1,0 +1,43 @@
+======= AND gate =======
+Alice[1] = 0    Bob[2] = 0    Outputs[3] = 0 
+Alice[1] = 0    Bob[2] = 1    Outputs[3] = 0 
+Alice[1] = 1    Bob[2] = 0    Outputs[3] = 0 
+Alice[1] = 1    Bob[2] = 1    Outputs[3] = 1 
+======= OR gate =======
+Alice[1] = 0    Bob[2] = 0    Outputs[3] = 0 
+Alice[1] = 0    Bob[2] = 1    Outputs[3] = 1 
+Alice[1] = 1    Bob[2] = 0    Outputs[3] = 1 
+Alice[1] = 1    Bob[2] = 1    Outputs[3] = 1 
+======= NOT gate =======
+Alice[1] = 0    Bob[] =    Outputs[2] = 1 
+Alice[1] = 1    Bob[] =    Outputs[2] = 0 
+======= XOR gate =======
+Alice[1] = 0    Bob[2] = 0    Outputs[3] = 0 
+Alice[1] = 0    Bob[2] = 1    Outputs[3] = 1 
+Alice[1] = 1    Bob[2] = 0    Outputs[3] = 1 
+Alice[1] = 1    Bob[2] = 1    Outputs[3] = 0 
+======= OR gate =======
+Alice[1] = 0    Bob[2] = 0    Outputs[3] = 0 
+Alice[1] = 0    Bob[2] = 1    Outputs[3] = 1 
+Alice[1] = 1    Bob[2] = 0    Outputs[3] = 1 
+Alice[1] = 1    Bob[2] = 1    Outputs[3] = 1 
+======= NOR gate =======
+Alice[1] = 0    Bob[2] = 0    Outputs[3] = 1 
+Alice[1] = 0    Bob[2] = 1    Outputs[3] = 0 
+Alice[1] = 1    Bob[2] = 0    Outputs[3] = 0 
+Alice[1] = 1    Bob[2] = 1    Outputs[3] = 0 
+======= NAND gate =======
+Alice[1] = 0    Bob[2] = 0    Outputs[3] = 1 
+Alice[1] = 0    Bob[2] = 1    Outputs[3] = 1 
+Alice[1] = 1    Bob[2] = 0    Outputs[3] = 1 
+Alice[1] = 1    Bob[2] = 1    Outputs[3] = 0 
+======= XNOR gate =======
+Alice[1] = 0    Bob[2] = 0    Outputs[3] = 1 
+Alice[1] = 0    Bob[2] = 1    Outputs[3] = 0 
+Alice[1] = 1    Bob[2] = 0    Outputs[3] = 0 
+Alice[1] = 1    Bob[2] = 1    Outputs[3] = 1 
+======= A implies B =======
+Alice[1] = 0    Bob[2] = 0    Outputs[4] = 1 
+Alice[1] = 0    Bob[2] = 1    Outputs[4] = 1 
+Alice[1] = 1    Bob[2] = 0    Outputs[4] = 0 
+Alice[1] = 1    Bob[2] = 1    Outputs[4] = 1 
