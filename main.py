@@ -30,7 +30,6 @@ def alice(filename):
             output_file.write("======= " + json_circuit["name"] + " =======\n")
 
             # create wires, create p-bits
-            #wires_dict, pbits_dict = yao.initiate_wires(json_circuit)
             s, wires_dict, pbits_dict = yao.write_circuit(json_circuit)
 
             if "bob" not in json_circuit:
