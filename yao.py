@@ -52,12 +52,7 @@ def write_circuit(json_circuit):
         for alice_gate in json_circuit["alice"]:
             #gate_dict[alice_gate] = permutation[i]
             s += str(permutation[i]) + " "
-            p_bit = random.randint(0,1)
-            (key_zero, key_one) = create2RandomKeys()
-            print(alice_gate)
-            wires_dict[alice_gate] = {}
-            wires_dict[alice_gate]["pbit"] = p_bit
-            wires_dict[alice_gate]["keys"] = [key_zero, key_one]
+            wires_dict = set_wires_dict(alice_gate, wires_dict)
             gate_dict[alice_gate] = permutation[i]
             i += 1
         s += "   "
@@ -67,11 +62,7 @@ def write_circuit(json_circuit):
             for bob_gate in json_circuit["bob"]:
                 #gate_dict[bob_gate] = permutation[i]
                 s += str(permutation[i]) + " "
-                p_bit = random.randint(0,1)
-                (key_zero, key_one) = create2RandomKeys()
-                wires_dict[bob_gate] = {}
-                wires_dict[bob_gate]["pbit"] = p_bit
-                wires_dict[bob_gate]["keys"] = [key_zero, key_one]
+                wires_dict = set_wires_dict(bob_gate, wires_dict)
                 gate_dict[bob_gate] = permutation[i]
                 i += 1
             s += "   "
@@ -82,38 +73,43 @@ def write_circuit(json_circuit):
         s += "Outputs[" + listAsStr + "] = "
         # now alice's and bob's gates are initialised to the values in the permutation
         # we can now compute all other gates / the output gate/-s
-        for gate in json_circuit["gates"]:
+        for current_gate in json_circuit["gates"]:
+            wires_dict = set_wires_dict(current_gate["id"], wires_dict)
 
-            p_bit = random.randint(0,1)
-            (key_zero, key_one) = create2RandomKeys()
-            print(gate)
-            wires_dict[gate["id"]] = {}
-            wires_dict[gate["id"]]["pbit"] = p_bit
-            wires_dict[gate["id"]]["keys"] = [key_zero, key_one]
-            this_gate = find_gate(gate["id"], json_circuit)
-            if len(this_gate["in"]) == 1:
-                truthvalue = logical_operator("NOT", [gate_dict[this_gate["in"][0]]])
-            else:
-                truthvalue = logical_operator(this_gate["type"], [gate_dict[this_gate["in"][0]], gate_dict[this_gate["in"][1]]])
-            gate_dict[gate["id"]] = truthvalue
+            gate_id = find_gate(current_gate["id"], json_circuit)
+            gate_dict, truthvalue = set_gate_dict(gate_id, gate_dict)
 
             # now also the current gate id's value is computed
         for outputgate in json_circuit["out"]:
-            gate = find_gate(outputgate, json_circuit)
-            if len(gate["in"]) == 1:
 
-                truthvalue = logical_operator("NOT", [gate_dict[gate["in"][0]]])
-
-            else:
-
-                truthvalue = logical_operator(gate["type"], [gate_dict[gate["in"][0]], gate_dict[gate["in"][1]]])
+            gate_id = find_gate(outputgate, json_circuit)
+            gate_dict, truthvalue = set_gate_dict(gate_id, gate_dict)
 
             s += str(truthvalue) + " "
-            gate_dict[outputgate] = truthvalue
             pbits_dict[outputgate] = wires_dict[outputgate]["pbit"]
         s += "\n"
 
     return (s, wires_dict, pbits_dict)
+
+def set_wires_dict(gate_id, wires_dict):
+    p_bit = random.randint(0,1)
+    (key_zero, key_one) = create2RandomKeys()
+    wires_dict[gate_id] = {}
+    wires_dict[gate_id]["pbit"] = p_bit
+    wires_dict[gate_id["keys"] = [key_zero, key_one]
+    return wires_dict
+
+def set_gate_dict(gate_id, gate_dict):
+    if len(gate_id["in"]) == 1:
+
+        truthvalue = logical_operator("NOT", [gate_dict[gate_id["in"][0]]])
+
+    else:
+
+        truthvalue = logical_operator(gate_id["type"], [gate_dict[gate_id["in"][0]], gate_dict[gate_id["in"][1]]])
+
+    gate_dict[gate_id["id"]] = truthvalue
+    return gate_dict, truthvalue
 
 def find_gate(gate_id, json_circuit):
     for gate in json_circuit["gates"]:
